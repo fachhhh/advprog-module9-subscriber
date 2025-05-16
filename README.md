@@ -18,3 +18,8 @@ Advprog A
     - `5672`: Port default yang digunakan oleh AMQP untuk komunikasi dengan RabbitMQ. Port ini memungkinkan publisher dan subscriber terhubung ke broker pesan.
 
 - Pada kode subscriber/publisher, URL `amqp://guest:guest@localhost:5672` digunakan untuk menghubungkan aplikasi Rust ke instance RabbitMQ yang berjalan di mesin lokal dengan kredensial default. Jika di-deploy di lingkungan produksi, kredensial dan alamat harus disesuaikan untuk keamanan.
+
+## Image
+**Setelah mensimulasikan slow subscriber**
+Terlihat disini bahwa grafik pertama menunjukkan adanya lonjakan saat dilakukan simulasi subscriber yang lambat dalam memproses data. Terlihat lebih dari 10 pesan tertumpuk dalam queue untuk beberapa detik sebelum jumlahnya berkurang. Fenomena ini terjadi karena subscriber memerlukan waktu 10ms per pesan, sehingga ketika publisher mengirim banyak event sekaligus dalam waktu singkat, pesan-pesan tersebut sempat menumpuk di RabbitMQ sebelum akhirnya diproses secara bertahap untuk ditampilkan di terminal subscriber.
+![alt text](image.png)
